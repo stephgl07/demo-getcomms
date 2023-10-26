@@ -9,17 +9,27 @@ import CardCommits from './CardCommits/CardCommits';
 import CardWorkflowsRuns from './CardWorkflowsRuns/CardWorkflowsRuns';
 import { GetBranchesRsDTO } from "@/common/domain/get-branches.interface";
 import { ApiResponse } from "@/common/domain/api-global-response";
-import { fetchBranches } from "@/application/services/branches-api";
+import { fetchBranchesDashboard } from "@/application/services/branches-api";
+import { fetchCommitsDashboard } from '@/application/services/commits-api';
+import { fetchWorkflowsDashboard } from '@/application/services/workflows-api';
+import { GetCommitsRsDTO } from '@/common/domain/get-commits.interface';
+import { GetWorkflowsRunsRsDTO } from '@/common/domain/get-workflowsruns.interface';
 
 const Content = () => {
-  const [branchesApiResponse, setBranchesApiResponse] = useState<ApiResponse<GetBranchesRsDTO[]> | null>(null);
+  const [branches, setBranches] = useState<ApiResponse<GetBranchesRsDTO[]> | null>(null);
+  const [commits, setCommits] = useState<ApiResponse<GetCommitsRsDTO[]> | null>(null);
+  const [workflows, setWorkflows] = useState<ApiResponse<GetWorkflowsRunsRsDTO[]> | null>(null);
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await fetchBranches("backend-onlinestore");
-        setBranchesApiResponse(data);
+        const fetchedBranches = await fetchBranchesDashboard("backend-onlinestore", 1,5);
+        setBranches(fetchedBranches);
+        const fetchedCommits = await fetchCommitsDashboard("backend-onlinestore", 1, 5);
+        setCommits(fetchedCommits);
+        const fetchedWorkflows = await fetchWorkflowsDashboard("backend-onlinestore", 1,5);
+        setWorkflows(fetchedWorkflows);
       } catch (error) {
-        console.error("Error while fetching Branches API:", error);
+        console.error("Error while fetching APIs:", error);
       }
     }
     fetchData();
@@ -34,19 +44,19 @@ const Content = () => {
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <Paper className={scss.dataCard}>
-            <CardBranches branches={branchesApiResponse?.data}/>
+            <CardBranches branches={branches?.data}/>
           </Paper>
         </Grid>
         <Grid item xs={12} lg={5}>
           <Paper className={scss.dataCard}>
-            <CardCommits/>
+            <CardCommits commits={commits?.data}/>
           </Paper>
         </Grid>
       </Grid>
       <Grid container>
         <Grid item xs={12} marginY={2}>
           <Paper className={scss.dataCard}>
-            <CardWorkflowsRuns/>
+            <CardWorkflowsRuns workflows={workflows?.data}/>
           </Paper>
         </Grid>
       </Grid>

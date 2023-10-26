@@ -6,6 +6,8 @@ console.log(envFilePath);
 dotenv.config({ path: envFilePath });
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    reactStrictMode: false
+}
 
 module.exports = nextConfig
