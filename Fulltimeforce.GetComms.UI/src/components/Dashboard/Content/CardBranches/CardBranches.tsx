@@ -17,7 +17,15 @@ const CardBranches = (props: CardBranchesProps) => {
 
   return (
     <>
-      <Typography variant="h6" sx={{pl: 1}}>Branches</Typography>
+      {
+        branches ? (
+          <Typography variant="h6" sx={{ pl: 1 }}>
+            Branches
+          </Typography>
+        ) : (
+          <Skeleton variant="text" height={30} />
+        )
+      }
       <Demo>
         <List dense={false}>
           {branches ? (

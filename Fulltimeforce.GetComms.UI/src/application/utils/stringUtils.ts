@@ -1,3 +1,7 @@
+
+const capitalize = (text: string): string => 
+  text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+
 const capitalizeBreadcrumbs = (segment: string): string => 
   segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase();
 
@@ -13,4 +17,4 @@ const capitalizeBreadcrumbLast = (segment: string): string => {
   return capitalizeBreadcrumbs(segment);
 }
 
-export { capitalizeBreadcrumbs, capitalizeBreadcrumbLast };
+export { capitalizeBreadcrumbs, capitalizeBreadcrumbLast, capitalize };

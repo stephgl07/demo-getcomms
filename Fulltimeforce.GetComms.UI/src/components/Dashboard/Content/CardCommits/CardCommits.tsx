@@ -26,9 +26,15 @@ const CardCommits = (props: CardCommitsProps) => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ pl: 1 }}>
-        Last Commits
-      </Typography>
+      {
+        commits ? (
+          <Typography variant="h6" sx={{ pl: 1 }}>
+            Commits
+          </Typography>
+        ) : (
+          <Skeleton variant="text" height={30} />
+        )
+      }
       <Demo>
         <List dense={false}>
           {commits ? (

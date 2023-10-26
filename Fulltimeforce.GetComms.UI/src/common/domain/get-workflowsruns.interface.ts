@@ -13,7 +13,8 @@ export interface GetWorkflowsRunsDTO{
     status: string;
     conclusion: string;
     html_url: string;
-    created_at: string;
+    date_created: string;
+    duration: string;
     actor:{
         avatar_url: string;
         user_name: string;

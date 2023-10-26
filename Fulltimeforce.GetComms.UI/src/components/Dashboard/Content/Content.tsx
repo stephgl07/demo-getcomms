@@ -1,9 +1,7 @@
 "use client";
 import { Box, Grid, Paper } from '@mui/material'
-import { Get } from "@/common/infrastructure/handlers/api-requests";
 import React, { useEffect, useState } from "react";
 import scss from "./Content.module.scss";
-import CardRepos from './CardRepos/CardRepos';
 import CardBranches from './CardBranches/CardBranches';
 import CardCommits from './CardCommits/CardCommits';
 import CardWorkflowsRuns from './CardWorkflowsRuns/CardWorkflowsRuns';
@@ -22,11 +20,14 @@ const Content = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const fetchedBranches = await fetchBranchesDashboard("backend-onlinestore", 1,5);
+        const [fetchedBranches, fetchedCommits, fetchedWorkflows] = await Promise.all([
+          fetchBranchesDashboard("backend-onlinestore", 1, 5),
+          fetchCommitsDashboard("backend-onlinestore", 1, 5),
+          fetchWorkflowsDashboard("backend-onlinestore", 1, 5)
+        ]);
+  
         setBranches(fetchedBranches);
-        const fetchedCommits = await fetchCommitsDashboard("backend-onlinestore", 1, 5);
         setCommits(fetchedCommits);
-        const fetchedWorkflows = await fetchWorkflowsDashboard("backend-onlinestore", 1,5);
         setWorkflows(fetchedWorkflows);
       } catch (error) {
         console.error("Error while fetching APIs:", error);
@@ -36,26 +37,19 @@ const Content = () => {
   }, []);
   return (
     <Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6} lg={3}>
-          <Paper className={scss.dataCard}>
-            <CardRepos/>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Paper className={scss.dataCard}>
-            <CardBranches branches={branches?.data}/>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} lg={5}>
-          <Paper className={scss.dataCard}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6} lg={7}>
+          <Paper className={scss.dataCard} elevation={6}>
             <CardCommits commits={commits?.data}/>
           </Paper>
         </Grid>
-      </Grid>
-      <Grid container>
-        <Grid item xs={12} marginY={2}>
-          <Paper className={scss.dataCard}>
+        <Grid item xs={12} md={6} lg={5}>
+          <Paper className={scss.dataCard} elevation={6}>
+            <CardBranches branches={branches?.data}/>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={scss.dataCard} elevation={6}>
             <CardWorkflowsRuns workflows={workflows?.data}/>
           </Paper>
         </Grid>
