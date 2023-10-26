@@ -7,7 +7,7 @@ import { GetCommitsRsDTO } from 'src/commons/domain/dtos/reponses/get-commits.in
 import { BranchEntity } from 'src/commons/domain/entities/branch.entity';
 import { BranchesService } from '../../services/branches/branches.service';
 import { IBranchesService } from '../../services/branches/branches.interface';
-import * as moment from 'moment';
+import { formatDate } from 'src/utils/dateFormatter';
 
 @Injectable()
 export class GetCommitsPerBranchUseCase implements IGetCommitsPerBranchUseCase {
@@ -28,7 +28,7 @@ export class GetCommitsPerBranchUseCase implements IGetCommitsPerBranchUseCase {
           email: comm.commit.author.email,
           user_name: comm.author.login,
           avatar_url: comm.author.avatar_url,
-          date: moment(comm.commit.author.date).format('DD-MM-YYYY HH:mm:ss'),
+          date: formatDate(comm.commit.author.date),
           html_url: comm.author.html_url,
         },
         message: comm.commit.message,

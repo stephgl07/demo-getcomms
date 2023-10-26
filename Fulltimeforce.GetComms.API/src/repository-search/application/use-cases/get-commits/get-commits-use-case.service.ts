@@ -9,7 +9,7 @@ import { GetCommitRsDTO } from 'src/commons/domain/dtos/reponses/get-commit.inte
 import { IBranchesService } from '../../services/branches/branches.interface';
 import { BranchesService } from '../../services/branches/branches.service';
 import { BranchEntity } from 'src/commons/domain/entities/branch.entity';
-import * as moment from 'moment';
+import { formatDate } from 'src/utils/dateFormatter';
 
 @Injectable()
 export class GetCommitsUseCase implements IGetCommitsUseCase {
@@ -33,7 +33,7 @@ export class GetCommitsUseCase implements IGetCommitsUseCase {
             email: comm.commit.author.email,
             user_name: comm.author.login,
             avatar_url: comm.author.avatar_url,
-            date: moment(comm.commit.author.date).format('DD/MM/YYYY hh:mm A'),
+            date: formatDate(comm.commit.author.date),
             html_url: comm.author.html_url
           },
           message: comm.commit.message,
@@ -73,7 +73,7 @@ export class GetCommitsUseCase implements IGetCommitsUseCase {
           email: commit.commit.author.email,
           user_name: commit.author.login,
           avatar_url: commit.author.avatar_url,
-          date: moment(commit.commit.author.date).format('DD-MM-YYYY HH:mm:ss'),
+          date: formatDate(commit.commit.author.date),
           html_url: commit.author.html_url,
         },
         message: commit.commit.message,
