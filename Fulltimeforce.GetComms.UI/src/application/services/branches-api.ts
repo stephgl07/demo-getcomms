@@ -5,7 +5,8 @@ import { ApiResponse } from "@/common/domain/api-global-response";
 import { GetBranchesRsDTO } from "@/common/domain/get-branches.interface";
 
 export const fetchBranches = async (repoName: string, page: number = 1, per_page: number = 100): Promise<ApiResponse<GetBranchesRsDTO[]>> => {
-  const baseUrl = "http://localhost:4000/repository-search/branches";
+  console.log("baseurl", process.env.NEXT_PUBLIC_BASE_API_URL)
+  const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/repository-search/branches`;
   const response = await Get<ApiResponse<GetBranchesRsDTO[]>>(`${baseUrl}`, {
     params: { repoName, page, per_page }
   });
