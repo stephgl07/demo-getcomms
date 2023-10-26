@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpStatus, Logger } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { AxiosRequestConfig } from 'axios';
 import { IGithubRequestHandler } from './github-rq-handler.interface';
@@ -12,6 +12,7 @@ import {
 
 @Injectable()
 export class GithubRequestHandler implements IGithubRequestHandler {
+  private readonly logger = new Logger('GithubAPI');
   constructor(private readonly httpService: HttpService) {}
   public async Get<T>(
     url: string,
@@ -19,12 +20,13 @@ export class GithubRequestHandler implements IGithubRequestHandler {
   ): Promise<ApiGitHubResponse<T>> {
     try {
       const response = await firstValueFrom(this.httpService.get(url, config));
+      this.logger.log("Github API call: " + url + " - " + response.status + " - " + response.statusText);
       if ((response.status === HttpStatus.NOT_FOUND)) throw new GitHubNotFoundException();
       if ((response.status === HttpStatus.UNPROCESSABLE_ENTITY))
         throw new GitHubUnprocessableEntityException();
       return response;
     } catch (error) {
-      console.log(error)
+      this.logger.error(error.response.data);
       throw new GitHubApiException('Error while processing the request'); // Lanzar excepción genérica si es necesario
       //throw ErrorManager.createSignatureError(error.message);
     }

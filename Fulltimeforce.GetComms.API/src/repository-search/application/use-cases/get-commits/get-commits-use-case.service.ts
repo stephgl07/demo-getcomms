@@ -9,6 +9,7 @@ import { GetCommitRsDTO } from 'src/commons/domain/dtos/reponses/get-commit.inte
 import { IBranchesService } from '../../services/branches/branches.interface';
 import { BranchesService } from '../../services/branches/branches.service';
 import { BranchEntity } from 'src/commons/domain/entities/branch.entity';
+import * as moment from 'moment';
 
 @Injectable()
 export class GetCommitsUseCase implements IGetCommitsUseCase {
@@ -32,7 +33,7 @@ export class GetCommitsUseCase implements IGetCommitsUseCase {
             email: comm.commit.author.email,
             user_name: comm.author.login,
             avatar_url: comm.author.avatar_url,
-            date: comm.commit.author.date,
+            date: moment(comm.commit.author.date).format('DD/MM/YYYY hh:mm A'),
             html_url: comm.author.html_url
           },
           message: comm.commit.message,
@@ -52,7 +53,7 @@ export class GetCommitsUseCase implements IGetCommitsUseCase {
       }
       return mapped;
     });
-    
+
     return mappedCommits;
   }
 
@@ -72,7 +73,7 @@ export class GetCommitsUseCase implements IGetCommitsUseCase {
           email: commit.commit.author.email,
           user_name: commit.author.login,
           avatar_url: commit.author.avatar_url,
-          date: commit.commit.author.date,
+          date: moment(commit.commit.author.date).format('DD-MM-YYYY HH:mm:ss'),
           html_url: commit.author.html_url,
         },
         message: commit.commit.message,
