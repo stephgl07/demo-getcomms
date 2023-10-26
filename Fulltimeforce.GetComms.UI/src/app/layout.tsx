@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true}>
+      <body>
         <ThemeRegistry >
           <Header />
           <Box className={scss.main}>

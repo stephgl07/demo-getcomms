@@ -11,8 +11,8 @@ import { GetBranchesRsDTO } from 'src/commons/domain/dtos/reponses/get-branches.
 import { GetCommitsRsDTO } from 'src/commons/domain/dtos/reponses/get-commits.interface';
 import { GetCommitRsDTO } from 'src/commons/domain/dtos/reponses/get-commit.interface';
 import { GetWorkflowsRunsRsDTO } from 'src/commons/domain/dtos/reponses/get-workflowsruns.interface';
-import { GetWorkflowsRunsUseCase } from '../application/use-cases/get-workflowsruns/get-workflowsruns.service';
-import { IGetWorkflowsRunsUseCase } from '../application/use-cases/get-workflowsruns/get-workflowsruns.interface';
+import { GetWorkflowsRunsUseCase } from '../application/use-cases/get-workflowsruns/get-workflowsruns-use-case.service';
+import { IGetWorkflowsRunsUseCase } from '../application/use-cases/get-workflowsruns/get-workflowsruns-use-case.interface';
 
 @Controller('repository-search')
 export class RepositorySearchController {

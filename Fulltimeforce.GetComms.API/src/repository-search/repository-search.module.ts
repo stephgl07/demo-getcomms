@@ -6,7 +6,7 @@ import { CommitsService } from 'src/repository-search/application/services/commi
 import { GetBranchesUseCase } from './application/use-cases/get-branches/get-branches-use-case.service';
 import { BranchesService } from './application/services/branches/branches.service';
 import { GetCommitsPerBranchUseCase } from './application/use-cases/get-commits-per-branch/get-commits-per-branch-use-case.service';
-import { GetWorkflowsRunsUseCase } from './application/use-cases/get-workflowsruns/get-workflowsruns.service';
+import { GetWorkflowsRunsUseCase } from './application/use-cases/get-workflowsruns/get-workflowsruns-use-case.service';
 import { WorkflowsService } from './application/services/workflows/workflows.service';
 
 @Module({

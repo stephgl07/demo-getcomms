@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IGetWorkflowsRunsUseCase } from './get-workflowsruns.interface';
+import { IGetWorkflowsRunsUseCase } from './get-workflowsruns-use-case.interface';
 import { IWorkflowsService } from '../../services/workflows/workflows.interface';
 import { WorkflowsService } from '../../services/workflows/workflows.service';
 import {
@@ -7,6 +7,7 @@ import {
   GetWorkflowsRunsRsDTO,
 } from 'src/commons/domain/dtos/reponses/get-workflowsruns.interface';
 import { WorkflowEntity } from 'src/commons/domain/entities/workflows.entity';
+import { calculateTime, formatDate } from 'src/utils/dateFormatter';
 
 @Injectable()
 export class GetWorkflowsRunsUseCase implements IGetWorkflowsRunsUseCase {
@@ -46,7 +47,8 @@ export class GetWorkflowsRunsUseCase implements IGetWorkflowsRunsUseCase {
               status: run.status,
               conclusion: run.conclusion,
               html_url: run.html_url,
-              created_at: run.created_at,
+              date_created: formatDate(run.created_at),
+              duration: calculateTime(run.created_at, run.updated_at),
               actor: {
                 avatar_url: run.actor.avatar_url,
                 user_name: run.actor.login,
