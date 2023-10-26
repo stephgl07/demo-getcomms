@@ -24,7 +24,8 @@ export class GithubRequestHandler implements IGithubRequestHandler {
         throw new GitHubUnprocessableEntityException();
       return response;
     } catch (error) {
-      throw new GitHubApiException('Error al procesar la solicitud'); // Lanzar excepción genérica si es necesario
+      console.log(error)
+      throw new GitHubApiException('Error while processing the request'); // Lanzar excepción genérica si es necesario
       //throw ErrorManager.createSignatureError(error.message);
     }
   }

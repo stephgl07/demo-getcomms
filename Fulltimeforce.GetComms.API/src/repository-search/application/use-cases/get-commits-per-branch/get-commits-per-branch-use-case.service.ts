@@ -4,15 +4,20 @@ import { ICommitsService } from '../../services/commits/commits.interface';
 import { CommitsService } from '../../services/commits/commits.service';
 import { IGetCommitsPerBranchUseCase } from './get-commits-per-branch-use-case.interface';
 import { GetCommitsRsDTO } from 'src/commons/domain/dtos/reponses/get-commits.interface';
+import { BranchEntity } from 'src/commons/domain/entities/branch.entity';
+import { BranchesService } from '../../services/branches/branches.service';
+import { IBranchesService } from '../../services/branches/branches.interface';
 
 @Injectable()
 export class GetCommitsPerBranchUseCase implements IGetCommitsPerBranchUseCase {
   constructor(
     @Inject(CommitsService) private readonly apiGateway: ICommitsService,
+    @Inject(BranchesService) private readonly branchesService: IBranchesService,
   ) {}
   async execute(repoName: string, sha: string, page: number, per_page: number): Promise<GetCommitsRsDTO[]> {
     const commits: CommitsEntity[] = await this.apiGateway.getCommitsPerBranch(repoName, sha, page, per_page);
-    
+    const branches: BranchEntity[] = await this.branchesService.getBranches(repoName);
+
     // Mapping DTO
     const mappedCommits: GetCommitsRsDTO[] = commits.map(comm => ({
       sha: comm.sha,
@@ -31,6 +36,8 @@ export class GetCommitsPerBranchUseCase implements IGetCommitsPerBranchUseCase {
           verified: comm.commit.verification.verified,
           reason: comm.commit.verification.reason,
         },
+        is_head: branches.some(branch => branch.commit.sha == comm.sha),
+        branch_head: branches.find(branch => branch.commit.sha == comm.sha)?.name
       },
       html_url: comm.html_url,
       parents: comm.parents.map(parent => ({

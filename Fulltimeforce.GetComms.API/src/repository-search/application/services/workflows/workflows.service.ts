@@ -21,35 +21,45 @@ export class WorkflowsService implements IWorkflowsService {
     const user = this.configService.get<string>('API_USER');
     const token = this.configService.get<string>('API_TOKEN');
 
-    // Configura los encabezados para la autenticación si es necesario
     const headers = {};
     if (user && token) {
-      headers['Authorization'] = `Basic ${Buffer.from(`${user}:${token}`).toString('base64')}`;
+      headers['Authorization'] = `Basic ${token}`;
+    }
+
+    const params: any = { repoName };
+    if (page != null && per_page != null) {
+      params.page = page;
+      params.per_page = per_page;
     }
 
     const response: ApiGitHubResponse<WorkflowEntity> = await this.githubRequestHandler.Get(`${baseUrl}/repos/${user}/${repoName}/actions/workflows`, {
       headers,
-      params: { page, per_page }
+      params
     });
 
     return response.data;
   }
 
-  async getWorkflowsRuns(repoName: string, workflowId: string, page: number, per_page: number): Promise<WorkFlowRunEntity> {
+  async getWorkflowsRuns(repoName: string, workflowId: string, page?: number, per_page?: number): Promise<WorkFlowRunEntity> {
 
     const baseUrl = this.configService.get<string>('API_BASE_URL');
     const user = this.configService.get<string>('API_USER');
     const token = this.configService.get<string>('API_TOKEN');
 
-    // Configura los encabezados para la autenticación si es necesario
     const headers = {};
     if (user && token) {
-      headers['Authorization'] = `Basic ${Buffer.from(`${user}:${token}`).toString('base64')}`;
+      headers['Authorization'] = `Basic ${token}`;
+    }
+
+    const params: any = { repoName };
+    if (page != null && per_page != null) {
+      params.page = page;
+      params.per_page = per_page;
     }
 
     const response: ApiGitHubResponse<WorkFlowRunEntity> = await this.githubRequestHandler.Get(`${baseUrl}/repos/${user}/${repoName}/actions/workflows/${workflowId}/runs`, {
       headers,
-      params: { page, per_page }
+      params
     });
 
     return response.data;

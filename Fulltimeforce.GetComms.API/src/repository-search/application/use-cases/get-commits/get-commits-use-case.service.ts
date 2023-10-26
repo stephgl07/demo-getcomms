@@ -6,51 +6,60 @@ import { IGetCommitsUseCase } from './get-commits-use-case.interface';
 import { GetCommitsRsDTO } from 'src/commons/domain/dtos/reponses/get-commits.interface';
 import { CommitEntity } from 'src/commons/domain/entities/commit.entity';
 import { GetCommitRsDTO } from 'src/commons/domain/dtos/reponses/get-commit.interface';
+import { IBranchesService } from '../../services/branches/branches.interface';
+import { BranchesService } from '../../services/branches/branches.service';
+import { BranchEntity } from 'src/commons/domain/entities/branch.entity';
 
 @Injectable()
 export class GetCommitsUseCase implements IGetCommitsUseCase {
   constructor(
-    @Inject(CommitsService) private readonly apiGateway: ICommitsService,
+    @Inject(CommitsService) private readonly commitsService: ICommitsService,
+    @Inject(BranchesService) private readonly branchesService: IBranchesService,
   ) {}
   async executeGetMany(repoName: string, page: number, per_page: number): Promise<GetCommitsRsDTO[]> {
     
     // Getting Commits from GH PI
-    const commits: CommitsEntity[] = await this.apiGateway.getCommits(repoName, page, per_page);
+    const commits: CommitsEntity[] = await this.commitsService.getCommits(repoName, page, per_page);
+    const branches: BranchEntity[] = await this.branchesService.getBranches(repoName);
 
     // Mapping DTO
-    const mappedCommits: GetCommitsRsDTO[] = commits.map(comm => ({
-      sha: comm.sha,
-      commit: {
-        author: {
-          name: comm.commit.author.name,
-          email: comm.commit.author.email,
-          user_name: comm.author.login,
-          avatar_url: comm.author.avatar_url,
-          date: comm.commit.author.date,
-          html_url: comm.author.html_url,
+    const mappedCommits: GetCommitsRsDTO[] = commits.map(comm => {
+      const mapped = {
+        sha: comm.sha,
+        commit: {
+          author: {
+            name: comm.commit.author.name,
+            email: comm.commit.author.email,
+            user_name: comm.author.login,
+            avatar_url: comm.author.avatar_url,
+            date: comm.commit.author.date,
+            html_url: comm.author.html_url
+          },
+          message: comm.commit.message,
+          comment_count: comm.commit.comment_count,
+          verification: {
+            verified: comm.commit.verification.verified,
+            reason: comm.commit.verification.reason,
+          },
+          is_head: branches.some(branch => branch.commit.sha == comm.sha),
+          branch_head: branches.find(branch => branch.commit.sha == comm.sha)?.name
         },
-        message: comm.commit.message,
-        comment_count: comm.commit.comment_count,
-        verification: {
-          verified: comm.commit.verification.verified,
-          reason: comm.commit.verification.reason,
-        },
-      },
-      html_url: comm.html_url,
-      parents: comm.parents.map(parent => ({
-        sha: parent.sha,
-        html_url: parent.html_url,
-      })),
-    }));
-
+        html_url: comm.html_url,
+        parents: comm.parents.map(parent => ({
+          sha: parent.sha,
+          html_url: parent.html_url,
+        }))
+      }
+      return mapped;
+    });
+    
     return mappedCommits;
-
   }
 
   async executeGet(repoName: string, sha: string): Promise<GetCommitRsDTO> {
     
     // Getting Commits from GH PI
-    const commit: CommitEntity = await this.apiGateway.getCommit(repoName, sha);
+    const commit: CommitEntity = await this.commitsService.getCommit(repoName, sha);
 
 
     // Mapping DTO

@@ -15,40 +15,51 @@ export class CommitsService implements ICommitsService {
     private configService: ConfigService // Inyecta ConfigService
   ) {}
 
-  async getCommits(repoName: string, page: number, per_page: number): Promise<CommitsEntity[]> {
+  async getCommits(repoName: string, page?: number, per_page?: number): Promise<CommitsEntity[]> {
 
     const baseUrl = this.configService.get<string>('API_BASE_URL');
     const user = this.configService.get<string>('API_USER');
     const token = this.configService.get<string>('API_TOKEN');
 
-    // Configura los encabezados para la autenticación si es necesario
     const headers = {};
     if (user && token) {
-      headers['Authorization'] = `Basic ${Buffer.from(`${user}:${token}`).toString('base64')}`;
+      headers['Authorization'] = `Basic ${token}`;
+    }
+
+    const params: any = { repoName };
+    if (page != null && per_page != null) {
+      params.page = page;
+      params.per_page = per_page;
     }
 
     const response: ApiGitHubResponse<CommitsEntity[]> = await this.githubRequestHandler.Get(`${baseUrl}/repos/${user}/${repoName}/commits`, {
       headers,
-      params: { page, per_page }
+      params
     });
 
     return response.data;
   }
 
-  async getCommitsPerBranch(repoName: string, sha: string, page: number, per_page: number): Promise<CommitsEntity[]> {
+  async getCommitsPerBranch(repoName: string, sha: string, page?: number, per_page?: number): Promise<CommitsEntity[]> {
     const baseUrl = this.configService.get<string>('API_BASE_URL');
     const user = this.configService.get<string>('API_USER');
     const token = this.configService.get<string>('API_TOKEN');
 
-    // Configura los encabezados para la autenticación si es necesario
     const headers = {};
     if (user && token) {
-      headers['Authorization'] = `Basic ${Buffer.from(`${user}:${token}`).toString('base64')}`;
+      headers['Authorization'] = `Basic ${token}`;
+    }
+
+    const params: any = { repoName };
+    params.sha = sha;
+    if (page != null && per_page != null) {
+      params.page = page;
+      params.per_page = per_page;
     }
 
     const response: ApiGitHubResponse<CommitsEntity[]> = await this.githubRequestHandler.Get(`${baseUrl}/repos/${user}/${repoName}/commits`, {
       headers,
-      params: { page, per_page, sha }
+      params
     });
 
     return response.data;
@@ -62,7 +73,7 @@ export class CommitsService implements ICommitsService {
     // Configura los encabezados para la autenticación si es necesario
     const headers = {};
     if (user && token) {
-      headers['Authorization'] = `Basic ${Buffer.from(`${user}:${token}`).toString('base64')}`;
+      headers['Authorization'] = `Basic ${token}`;
     }
 
     const response: ApiGitHubResponse<CommitEntity> = await this.githubRequestHandler.Get(`${baseUrl}/repos/${user}/${repoName}/commits/${sha}`, {
