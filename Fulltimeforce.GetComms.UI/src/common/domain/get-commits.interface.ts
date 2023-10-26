@@ -15,6 +15,8 @@ export interface GetCommitsRsDTO {
       verified: boolean;
       reason: string;
     };
+    is_head: boolean;
+    branch_head?: string;
   };
   html_url: string;
   parents: {

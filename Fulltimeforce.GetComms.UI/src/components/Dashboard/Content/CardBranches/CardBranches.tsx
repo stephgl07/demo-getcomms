@@ -1,5 +1,5 @@
 import { GetBranchesRsDTO } from "@/common/domain/get-branches.interface";
-import { List, ListItem, ListItemIcon, ListItemText, Skeleton, Typography } from "@mui/material";
+import { Chip, List, ListItem, ListItemIcon, ListItemText, Skeleton, Typography } from "@mui/material";
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { styled } from "@mui/material/styles";
 import React from "react";
@@ -14,14 +14,12 @@ const Demo = styled("div")(({ theme }) => ({
 
 const CardBranches = (props: CardBranchesProps) => {
   const { branches } = props;
-  const [dense] = React.useState(false);
-  const [secondary] = React.useState(false);
 
   return (
     <>
       <Typography variant="h6" sx={{pl: 1}}>Branches</Typography>
       <Demo>
-        <List dense={dense}>
+        <List dense={false}>
           {branches ? (
             branches.map((branch, index) => (
                 <ListItem key={index}>
@@ -30,8 +28,8 @@ const CardBranches = (props: CardBranchesProps) => {
                   </ListItemIcon>
                   <ListItemText
                     primary={branch.name}
-                    secondary={secondary ? branch.commit_sha : null}
                   />
+                  <Chip label={branch.protected ? "Protected" : "Unprotected"} variant="outlined" color={branch.protected ? "success" : "error"} />
                 </ListItem>
               ))
           ) : (
