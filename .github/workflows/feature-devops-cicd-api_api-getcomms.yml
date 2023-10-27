@@ -35,17 +35,6 @@ jobs:
           name: node-app
           path: release.zip
 
-  deploy:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Fulltimeforce.GetComms.API
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
