@@ -44,7 +44,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## 🛠️ Built With
 
 - Nest.js 13
+- App Router
 - TypeScript
+- Material UI
+- SASS Modules
 
 ## 🖋️ Authors
 
