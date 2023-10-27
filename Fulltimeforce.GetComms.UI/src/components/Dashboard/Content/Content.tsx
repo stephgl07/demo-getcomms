@@ -21,9 +21,9 @@ const Content = () => {
     async function fetchData() {
       try {
         const [fetchedBranches, fetchedCommits, fetchedWorkflows] = await Promise.all([
-          fetchBranchesDashboard("backend-onlinestore", 1, 5),
-          fetchCommitsDashboard("backend-onlinestore", 1, 5),
-          fetchWorkflowsDashboard("backend-onlinestore", 1, 5)
+          fetchBranchesDashboard(1, 5),
+          fetchCommitsDashboard( 1, 5),
+          fetchWorkflowsDashboard(1, 5)
         ]);
   
         setBranches(fetchedBranches);
