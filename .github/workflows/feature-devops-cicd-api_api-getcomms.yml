@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,14 +29,6 @@ jobs:
           npm install
           npm run build --if-present
 
-  deploy:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Fulltimeforce.GetComms.API
-    needs: build
-
-    steps:
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -45,3 +37,4 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3FC3BEF203C342288CEB381BB5B01FF0 }}
           package: .
+
