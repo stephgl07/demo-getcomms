@@ -11,8 +11,15 @@ dotenv.config({ path: envFilePath });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: '/demo-getcomms',
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
+  },
+  swcMinify: true,
+  modularizeImports: {
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
+    },
   },
   output: "export",
   reactStrictMode: false,
