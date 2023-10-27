@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: .
+          path: ./Fulltimeforce.GetComms.API
       
       - name: List contents of current directory 2
         run: ls -al
