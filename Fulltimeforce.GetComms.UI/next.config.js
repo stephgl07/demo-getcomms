@@ -6,12 +6,11 @@ const envFilePath = path.join(
   "config",
   `.env.${process.env.NODE_ENV}`
 );
-console.log(envFilePath);
 dotenv.config({ path: envFilePath });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/demo-getcomms',
+  basePath: (process.env.NODE_ENV !== "development" ? "/demo-getcomms" : ""),
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
