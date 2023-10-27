@@ -11,6 +11,7 @@ dotenv.config({ path: envFilePath });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: '/demo-getcomms',
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
