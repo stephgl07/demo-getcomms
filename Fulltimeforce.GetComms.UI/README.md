@@ -18,7 +18,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the repository:
 
 ```cmd
-git clone [URL-of-the-repository.git]
+git clone https://github.com/stephgl07/demo-getcomms.git
 ```
 
 2. Navigate to the project directory:
