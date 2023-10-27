@@ -3,5 +3,5 @@ import { WorkflowEntity } from './../../../../commons/domain/entities/workflows.
 
 export interface IWorkflowsService {
   getWorkflows(repoName: string, page?: number, per_page?: number): Promise<WorkflowEntity>;
-  getWorkflowsRuns(repoName: string, workflowId: string, page: number, per_page: number): Promise<WorkFlowRunEntity>
+  getWorkflowsRuns(repoName: string, workflowId: string, page?: number, per_page?: number): Promise<WorkFlowRunEntity>
 }

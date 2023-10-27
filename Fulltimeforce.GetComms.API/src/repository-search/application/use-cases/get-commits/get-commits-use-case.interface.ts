@@ -2,6 +2,6 @@ import { GetCommitRsDTO } from "src/commons/domain/dtos/reponses/get-commit.inte
 import { GetCommitsRsDTO } from "src/commons/domain/dtos/reponses/get-commits.interface";
 
 export interface IGetCommitsUseCase {
-  executeGetMany(repoName: string, page: number, per_page: number): Promise<GetCommitsRsDTO[]>;
+  executeGetMany(repoName: string, page?: number, per_page?: number): Promise<GetCommitsRsDTO[]>;
   executeGet(repoName: string, sha: string): Promise<GetCommitRsDTO>;
 }

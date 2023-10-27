@@ -1,5 +1,3 @@
-// src/application/adapters/controllers/commits.controller.ts
-
 import { Controller, Get, Inject, Query, Res } from '@nestjs/common';
 import { GetCommitsUseCase } from '../application/use-cases/get-commits/get-commits-use-case.service';
 import { IGetCommitsUseCase } from '../application/use-cases/get-commits/get-commits-use-case.interface';
@@ -13,7 +11,10 @@ import { GetCommitRsDTO } from 'src/commons/domain/dtos/reponses/get-commit.inte
 import { GetWorkflowsRunsRsDTO } from 'src/commons/domain/dtos/reponses/get-workflowsruns.interface';
 import { GetWorkflowsRunsUseCase } from '../application/use-cases/get-workflowsruns/get-workflowsruns-use-case.service';
 import { IGetWorkflowsRunsUseCase } from '../application/use-cases/get-workflowsruns/get-workflowsruns-use-case.interface';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
+@ApiTags('Repository Search')
 @Controller('repository-search')
 export class RepositorySearchController {
   constructor(
@@ -25,27 +26,36 @@ export class RepositorySearchController {
     private readonly getCommitsPerBranchUseCase: IGetCommitsPerBranchUseCase,
     @Inject(GetWorkflowsRunsUseCase)
     private readonly getWorkflowsRunsUseCase: IGetWorkflowsRunsUseCase,
-  ) {}
+    private configService: ConfigService
+    ) {}
 
-  @Get('commits') // Cambia la ruta para obtener los commits
+  @Get('commits')
+  //@ApiQuery({ name: 'repoName', required: true, description: 'The name of the repository.' })
+  @ApiQuery({ name: 'page', required: false, description: 'The page number.', type: 'number' })
+  @ApiQuery({ name: 'per_page', required: false, description: 'Items per page.', type: 'number' })
   async getCommits(
-    @Query('repoName') repoName: string,
-    @Query('page') page: number,
-    @Query('per_page') per_page: number,
     @Res() res,
+    //@Query('repoName') repoName: string,
+    @Query('page') page?: number,
+    @Query('per_page') per_page?: number,
   ): Promise<void> {
+    const repoName = this.configService.get<string>('API_DEFAULT_REPO');
     const response: GetCommitsRsDTO[] =
       await this.getCommitsUseCase.executeGetMany(repoName, page, per_page);
     res.reply(200, response);
   }
 
-  @Get('branches') // Cambia la ruta para obtener las ramas
+  @Get('branches')
+  //@ApiQuery({ name: 'repoName', required: true, description: 'The name of the repository.' })
+  @ApiQuery({ name: 'page', required: false, description: 'The page number.', type: 'number' })
+  @ApiQuery({ name: 'per_page', required: false, description: 'Items per page.', type: 'number' })
   async getBranches(
-    @Query('repoName') repoName: string,
-    @Query('page') page: number,
-    @Query('per_page') per_page: number,
     @Res() res,
+    //@Query('repoName') repoName: string,
+    @Query('page') page?: number,
+    @Query('per_page') per_page?: number,
   ): Promise<void> {
+    const repoName = this.configService.get<string>('API_DEFAULT_REPO');
     const response: GetBranchesRsDTO[] = await this.getBranchesUseCase.execute(
       repoName,
       page,
@@ -54,14 +64,19 @@ export class RepositorySearchController {
     res.reply(200, response);
   }
 
-  @Get('commits-per-branch') // Cambia la ruta para obtener las ramas
+  @Get('commits-per-branch')
+  //@ApiQuery({ name: 'repoName', required: true, description: 'The name of the repository.' })
+  @ApiQuery({ name: 'sha', required: true, description: 'The commit hash or SHA.' })
+  @ApiQuery({ name: 'page', required: false, description: 'The page number.', type: 'number' })
+  @ApiQuery({ name: 'per_page', required: false, description: 'Items per page.', type: 'number' })
   async getCommitsPerBranch(
-    @Query('repoName') repoName: string,
-    @Query('sha') sha: string,
-    @Query('page') page: number,
-    @Query('per_page') per_page: number,
     @Res() res,
+    //@Query('repoName') repoName: string,
+    @Query('sha') sha: string,
+    @Query('page') page?: number,
+    @Query('per_page') per_page?: number,
   ): Promise<void> {
+    const repoName = this.configService.get<string>('API_DEFAULT_REPO');
     const response: GetCommitsRsDTO[] =
       await this.getCommitsPerBranchUseCase.execute(
         repoName,
@@ -72,12 +87,15 @@ export class RepositorySearchController {
     res.reply(200, response);
   }
 
-  @Get('commit') // Cambia la ruta para obtener las ramas
+  @Get('commit')
+  //@ApiQuery({ name: 'repoName', required: true, description: 'The name of the repository.' })
+  @ApiQuery({ name: 'sha', required: true, description: 'The commit hash or SHA.' })
   async getCommit(
-    @Query('repoName') repoName: string,
+    //@Query('repoName') repoName: string,
     @Query('sha') sha: string,
     @Res() res,
   ): Promise<void> {
+    const repoName = this.configService.get<string>('API_DEFAULT_REPO');
     const response: GetCommitRsDTO = await this.getCommitsUseCase.executeGet(
       repoName,
       sha,
@@ -85,13 +103,17 @@ export class RepositorySearchController {
     res.reply(200, response);
   }
 
-  @Get('workflows-runs') // Cambia la ruta para obtener las ramas
+  @Get('workflows-runs')
+  //@ApiQuery({ name: 'repoName', required: true, description: 'The name of the repository.' })
+  @ApiQuery({ name: 'page', required: false, description: 'The page number.', type: 'number' })
+  @ApiQuery({ name: 'per_page', required: false, description: 'Items per page.', type: 'number' })
   async getWorkflowsRuns(
-    @Query('repoName') repoName: string,
-    @Query('page') page: number,
-    @Query('per_page') per_page: number,
     @Res() res,
+    //@Query('repoName') repoName: string,
+    @Query('page') page?: number,
+    @Query('per_page') per_page?: number,
   ): Promise<void> {
+    const repoName = this.configService.get<string>('API_DEFAULT_REPO');
     const response: GetWorkflowsRunsRsDTO[] =
       await this.getWorkflowsRunsUseCase.execute(repoName, page, per_page);
     res.reply(200, response);

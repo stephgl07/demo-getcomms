@@ -12,7 +12,7 @@ export class WorkflowsService implements IWorkflowsService {
   constructor(
     @Inject(GithubRequestHandler)
     private readonly githubRequestHandler: IGithubRequestHandler,
-    private configService: ConfigService // Inyecta ConfigService
+    private configService: ConfigService
   ) {}
 
   async getWorkflows(repoName: string, page?: number, per_page?: number): Promise<WorkflowEntity> {

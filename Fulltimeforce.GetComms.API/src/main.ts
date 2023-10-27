@@ -5,6 +5,7 @@ import { responseFormatMiddleware } from './commons/infrastructure/middlewares/r
 import { LogLevel } from '@nestjs/common';
 import { LoggerInterceptor } from './utils/logger.interceptor';
 import { BaseExceptionFilter } from './commons/infrastructure/filters/base-exception.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const isProduction = process.env.NODE_ENV === 'production';
@@ -19,6 +20,13 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalFilters(new GitHubExceptionFilter(), new BaseExceptionFilter());
   app.useGlobalInterceptors(new LoggerInterceptor());
+  const config = new DocumentBuilder()
+    .setTitle('API GET COMMS')
+    .setDescription('API component for technical test for Fulltimeforce company.')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
   await app.listen(4000);
 }
 bootstrap();
