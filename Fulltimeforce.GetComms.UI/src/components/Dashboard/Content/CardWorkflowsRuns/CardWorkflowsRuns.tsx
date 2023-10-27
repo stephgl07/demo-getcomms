@@ -18,6 +18,7 @@ import { Typography } from "@mui/material";
 import { capitalize } from "@/application/utils/stringUtils";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import TimerIcon from '@mui/icons-material/Timer';
 
 export type CardWorkflowsRunsProps = {
   workflows?: GetWorkflowsRunsRsDTO[] | null;
@@ -94,34 +95,38 @@ const CardWorkflowsRuns = (props: CardWorkflowsRunsProps) => {
                         </TableCell>
                         <TableCell>{run.run_attempt}</TableCell>
                         <TableCell>
-                          <Grid sx={{ fontWeight: 600 }} spacing={1} container>
-                            <Grid item xs={12}>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  flexWrap: "wrap",
-                                }}
-                              >
-                                <DateRangeIcon />
+                          <Grid sx={{alignItems: "center"}} spacing={1} container>
+                            <Grid item xs={2}>
+                              <DateRangeIcon />
+                            </Grid>
+                            <Grid item xs={10}>
                                 <Typography
                                   variant="body2"
                                   sx={{
-                                    fontWeight: "inherit",
+                                    fontWeight: 900,
                                     display: "center",
                                   }}
                                 >
                                   {run.date_created}
                                 </Typography>
-                              </Box>
+
                             </Grid>
-                            <Grid item xs={12}>
-                              <Typography
-                                sx={{ fontWeight: "inherit" }}
-                                variant="body2"
-                              >
-                                {run.duration}
-                              </Typography>
+                          </Grid>
+                          <Grid sx={{alignItems: "center"}} spacing={1} container>
+                            <Grid item xs={2}>
+                              <TimerIcon />
+                            </Grid>
+                            <Grid item xs={10}>
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    fontWeight: 900,
+                                    display: "center",
+                                  }}
+                                >
+                                  {run.duration}
+                                </Typography>
+
                             </Grid>
                           </Grid>
                         </TableCell>

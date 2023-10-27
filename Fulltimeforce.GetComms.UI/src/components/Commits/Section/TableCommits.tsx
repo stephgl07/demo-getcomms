@@ -16,6 +16,7 @@ import {
   TableRow,
   Typography,
   capitalize,
+  Paper
 } from "@mui/material";
 import React from "react";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -26,12 +27,9 @@ export type CardCommitsProps = {
 const TableCommits = (props: CardCommitsProps) => {
   const { commits } = props;
   return (
-    <>
+    <Paper>
       {commits ? (
         <Box>
-          <Typography variant="h6" sx={{ pl: 1 }}>
-            Commits
-          </Typography>
           <TableContainer component={Box}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -54,7 +52,7 @@ const TableCommits = (props: CardCommitsProps) => {
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        <ListItem sx={{pl: 0}}>
+                        <ListItem sx={{ pl: 0 }}>
                           <ListItemAvatar>
                             <Avatar
                               alt={comm.commit.author.name}
@@ -74,27 +72,35 @@ const TableCommits = (props: CardCommitsProps) => {
                         </ListItem>
                       </TableCell>
                       <TableCell>
-                        <Chip
-                          label={capitalize(comm.commit.verification.reason)}
-                          variant="outlined"
-                          color={
-                            comm.commit.verification.reason == "completed"
-                              ? "success"
-                              : "info"
-                          }
-                        />
-                        <Chip
-                          label={capitalize(
-                            comm.commit.verification.verified
-                              ? "verified"
-                              : "unverified"
-                          )}
-                          color={
-                            comm.commit.verification.verified
-                              ? "success"
-                              : "warning"
-                          }
-                        />
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <Chip
+                              label={capitalize(
+                                comm.commit.verification.reason
+                              )}
+                              variant="outlined"
+                              color={
+                                comm.commit.verification.reason == "valid"
+                                  ? "success"
+                                  : "info"
+                              }
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Chip
+                              label={capitalize(
+                                comm.commit.verification.verified
+                                  ? "verified"
+                                  : "unverified"
+                              )}
+                              color={
+                                comm.commit.verification.verified
+                                  ? "success"
+                                  : "warning"
+                              }
+                            />
+                          </Grid>
+                        </Grid>
                       </TableCell>
                       <TableCell>
                         {comm.commit.comment_count > 0
@@ -102,26 +108,24 @@ const TableCommits = (props: CardCommitsProps) => {
                           : "No comments"}
                       </TableCell>
                       <TableCell>
-                        <Grid sx={{ fontWeight: 600 }} spacing={1} container>
-                          <Grid item xs={12}>
-                            <Box
+                        <Grid
+                          sx={{ alignItems: "center" }}
+                          spacing={1}
+                          container
+                        >
+                          <Grid item xs={2}>
+                            <DateRangeIcon />
+                          </Grid>
+                          <Grid item xs={10}>
+                            <Typography
+                              variant="body2"
                               sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                flexWrap: "nowrap",
+                                fontWeight: 900,
+                                display: "center",
                               }}
                             >
-                              <DateRangeIcon />
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  fontWeight: "inherit",
-                                  display: "center",
-                                }}
-                              >
-                                {comm.commit.author.date}
-                              </Typography>
-                            </Box>
+                              {comm.commit.author.date}
+                            </Typography>
                           </Grid>
                         </Grid>
                       </TableCell>
@@ -147,7 +151,7 @@ const TableCommits = (props: CardCommitsProps) => {
           </Box>
         </Box>
       )}
-    </>
+    </Paper>
   );
 };
 

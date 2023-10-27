@@ -21,17 +21,17 @@ import { useRouter } from 'next/navigation';
 
 const pages = [
   {
-    name: "Branches",
-    path: "/branches",
-  },
-  {
     name: "Commits",
     path: "/commits",
   },
-  {
-    name: "Workflows",
-    path: "/workflows",
-  }
+  // {
+  //   name: "Commits",
+  //   path: "/commits",
+  // },
+  // {
+  //   name: "Workflows",
+  //   path: "/workflows",
+  // }
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
