@@ -12,17 +12,17 @@ import { calculateTime, formatDate } from 'src/utils/dateFormatter';
 @Injectable()
 export class GetWorkflowsRunsUseCase implements IGetWorkflowsRunsUseCase {
   constructor(
-    @Inject(WorkflowsService) private readonly apiGateway: IWorkflowsService,
+    @Inject(WorkflowsService) private readonly workflowService: IWorkflowsService,
   ) {}
 
   async execute(
     repoName: string,
-    page: number,
-    per_page: number,
+    page?: number,
+    per_page?: number,
   ): Promise<GetWorkflowsRunsRsDTO[]> {
     // Getting workflows from GH API
     let workflowsRoot: WorkflowEntity =
-      await this.apiGateway.getWorkflows(repoName);
+      await this.workflowService.getWorkflows(repoName);
 
     workflowsRoot.workflows = workflowsRoot.workflows.filter((workflow) => {
         return repoName == workflow.url.split('/')[5];
@@ -30,7 +30,7 @@ export class GetWorkflowsRunsUseCase implements IGetWorkflowsRunsUseCase {
 
     const mappedWorkflows: GetWorkflowsRunsRsDTO[] = await Promise.all(
       workflowsRoot.workflows.map(async (workflow) => {
-        const runs = await this.apiGateway.getWorkflowsRuns(
+        const runs = await this.workflowService.getWorkflowsRuns(
           repoName,
           workflow.id.toString(),
           page,

@@ -12,7 +12,7 @@ export class CommitsService implements ICommitsService {
   constructor(
     @Inject(GithubRequestHandler)
     private readonly githubRequestHandler: IGithubRequestHandler,
-    private configService: ConfigService // Inyecta ConfigService
+    private configService: ConfigService
   ) {}
 
   async getCommits(repoName: string, page?: number, per_page?: number): Promise<CommitsEntity[]> {

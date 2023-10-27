@@ -17,7 +17,7 @@ export class GetCommitsUseCase implements IGetCommitsUseCase {
     @Inject(CommitsService) private readonly commitsService: ICommitsService,
     @Inject(BranchesService) private readonly branchesService: IBranchesService,
   ) {}
-  async executeGetMany(repoName: string, page: number, per_page: number): Promise<GetCommitsRsDTO[]> {
+  async executeGetMany(repoName: string, page?: number, per_page?: number): Promise<GetCommitsRsDTO[]> {
     
     // Getting Commits from GH PI
     const commits: CommitsEntity[] = await this.commitsService.getCommits(repoName, page, per_page);

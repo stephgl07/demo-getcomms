@@ -12,11 +12,11 @@ import { formatDate } from 'src/utils/dateFormatter';
 @Injectable()
 export class GetCommitsPerBranchUseCase implements IGetCommitsPerBranchUseCase {
   constructor(
-    @Inject(CommitsService) private readonly apiGateway: ICommitsService,
+    @Inject(CommitsService) private readonly commitsService: ICommitsService,
     @Inject(BranchesService) private readonly branchesService: IBranchesService,
   ) {}
-  async execute(repoName: string, sha: string, page: number, per_page: number): Promise<GetCommitsRsDTO[]> {
-    const commits: CommitsEntity[] = await this.apiGateway.getCommitsPerBranch(repoName, sha, page, per_page);
+  async execute(repoName: string, sha: string, page?: number, per_page?: number): Promise<GetCommitsRsDTO[]> {
+    const commits: CommitsEntity[] = await this.commitsService.getCommitsPerBranch(repoName, sha, page, per_page);
     const branches: BranchEntity[] = await this.branchesService.getBranches(repoName);
 
     // Mapping DTO

@@ -41,10 +41,14 @@ npm run start
 
 Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
 
+Open [http://localhost:4000/api](http://localhost:4000/api) to test directly using Swagger.
+
 ## 🛠️ Built With
 
 - Nest.js 13
 - TypeScript
+- Swagger
+- Github API
 
 ## 🖋️ Authors
 
