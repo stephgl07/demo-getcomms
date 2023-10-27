@@ -82,7 +82,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./Fulltimeforce.GetComms.UI/out
+          path: ./Fulltimeforce.GetComms.UI/dist
 
   # Deployment job
   deploy:
