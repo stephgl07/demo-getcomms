@@ -6,6 +6,14 @@ on:
       - feature/devops-cicd-api
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: api-getcomms   # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '18.x'                # set this to the node version to use
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,28 +22,27 @@ jobs:
         working-directory: ./Fulltimeforce.GetComms.API
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
       - name: npm install and build
         run: |
           npm install
-          npm run build --if-present
+          npm run build
       
       - name: List contents of current directory 1
         run: ls -al
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          path: release.zip
+          name: node-app
+          path: .
       
       - name: List contents of current directory 2
         run: ls -al
@@ -45,9 +52,6 @@ jobs:
         with:
           name: node-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-
       - name: List contents of current directory 3
         run: ls -al
 
@@ -55,10 +59,10 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'api-getcomms'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3FC3BEF203C342288CEB381BB5B01FF0 }}
-          package: .
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       
       - name: List contents of current directory 4
         run: ls -al
