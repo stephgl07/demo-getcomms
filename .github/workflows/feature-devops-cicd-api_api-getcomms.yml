@@ -42,6 +42,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'api-getcomms'
-          slot-name: 'Production'
+          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3FC3BEF203C342288CEB381BB5B01FF0 }}
           package: .
