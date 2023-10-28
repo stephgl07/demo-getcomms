@@ -43,12 +43,20 @@ Open [http://localhost:4000](http://localhost:4000) with your browser to see the
 
 Open [http://localhost:4000/api](http://localhost:4000/api) to test directly using Swagger.
 
+## 🏗️ CI/CD
+
+Pipeline is configured on the root path of the repository. It is executed when making a push to the "main" branch.
+
+You can test the deployment result here! => [https://api-getcomms.azurewebsites.net/api](https://api-getcomms.azurewebsites.net/api)
+
 ## 🛠️ Built With
 
 - Nest.js 13
 - TypeScript
 - Swagger
 - Github API
+- Github Actions
+- Azure
 
 ## 🖋️ Authors
 
