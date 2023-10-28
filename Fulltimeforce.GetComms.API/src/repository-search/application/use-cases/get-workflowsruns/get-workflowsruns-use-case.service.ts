@@ -22,7 +22,7 @@ export class GetWorkflowsRunsUseCase implements IGetWorkflowsRunsUseCase {
   ): Promise<GetWorkflowsRunsRsDTO[]> {
     // Getting workflows from GH API
     let workflowsRoot: WorkflowEntity =
-      await this.workflowService.getWorkflows(repoName);
+      await this.workflowService.getWorkflows(repoName, page, per_page);
 
     workflowsRoot.workflows = workflowsRoot.workflows.filter((workflow) => {
         return repoName == workflow.url.split('/')[5];

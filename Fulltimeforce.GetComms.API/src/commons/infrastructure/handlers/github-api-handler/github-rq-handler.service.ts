@@ -7,6 +7,7 @@ import { ApiGitHubResponse } from '../../../domain/dtos/api/github-api-response'
 import {
   GitHubApiException,
   GitHubNotFoundException,
+  GitHubRateLimitException,
   GitHubUnprocessableEntityException,
 } from 'src/commons/domain/dtos/api/github-exceptions';
 
@@ -26,9 +27,12 @@ export class GithubRequestHandler implements IGithubRequestHandler {
         throw new GitHubUnprocessableEntityException();
       return response;
     } catch (error) {
-      this.logger.error(error.response.data);
-      throw new GitHubApiException('Error while processing the request'); // Lanzar excepción genérica si es necesario
-      //throw ErrorManager.createSignatureError(error.message);
+      const dataError = error?.response?.data;
+      if(dataError){
+        this.logger.error(error.response.data);
+        if(error.response.data.message.includes("API rate limit exceeded")) throw new GitHubApiException("API rate limit exceeded");
+      }
+      throw new GitHubApiException('Error while processing the request');
     }
   }
 }

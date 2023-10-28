@@ -41,13 +41,20 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## 🏗️ CI/CD
+
+Pipeline is configured on the root path of the repository. It is executed when making a push to the "main" branch.
+
+You can see the deployment result here! => [https://stephgl07.github.io/demo-getcomms](https://stephgl07.github.io/demo-getcomms)
+
 ## 🛠️ Built With
 
 - Nest.js 13
 - App Router
 - TypeScript
 - Material UI
-- SASS Modules
+- Sass Modules
+- Github Actions
 
 ## 🖋️ Authors
 

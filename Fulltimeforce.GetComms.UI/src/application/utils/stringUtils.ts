@@ -1,9 +1,17 @@
 
-const capitalize = (text: string): string => 
-  text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+const capitalize = (text?: string): string => {
+  if(!text) {
+    return "";
+  }
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
 
-const capitalizeBreadcrumbs = (segment: string): string => 
-  segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase();
+const capitalizeBreadcrumbs = (segment?: string): string => {
+  if(!segment) {
+    return "";
+  }
+  return segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase();
+}
 
 const capitalizeBreadcrumbLast = (segment: string): string => {
   if(/^[0-9a-fA-F]+$/.test(segment)) {
