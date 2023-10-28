@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import shortcodeToEmoji from "@/application/utils/emojis/gitmojis.handler";
 
 export type CardCommitsProps = {
   commits?: GetCommitsRsDTO[] | null;
@@ -48,7 +49,7 @@ const TableCommits = (props: CardCommitsProps) => {
                     <TableRow key={comm.sha}>
                       <TableCell>
                         <Typography variant="body1">
-                          {comm.commit.message}
+                          {shortcodeToEmoji(comm.commit.message)}
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -144,10 +145,10 @@ const TableCommits = (props: CardCommitsProps) => {
           </TableContainer>
         </Box>
       ) : (
-        <Box>
-          <Skeleton variant="text" height={30} />
+        <Box sx={{pt: 2, pr: 3, pb: 2, pl: 3}}>
+          <Skeleton variant="text" height={40} />
           <Box sx={{ pt: 1, pb: 1 }}>
-            <Skeleton variant="rounded" height={150} />
+            <Skeleton variant="rounded" height={200} />
           </Box>
         </Box>
       )}

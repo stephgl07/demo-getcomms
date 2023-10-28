@@ -19,6 +19,7 @@ import { capitalize } from "@/application/utils/stringUtils";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import TimerIcon from '@mui/icons-material/Timer';
+import shortcodeToEmoji from "@/application/utils/emojis/gitmojis.handler";
 
 export type CardWorkflowsRunsProps = {
   workflows?: GetWorkflowsRunsRsDTO[] | null;
@@ -60,7 +61,7 @@ const CardWorkflowsRuns = (props: CardWorkflowsRunsProps) => {
                                 <Typography
                                   sx={{ fontWeight: 900, fontSize: "1.10rem" }}
                                 >
-                                  {run.display_title}
+                                  {shortcodeToEmoji(run.display_title)}
                                 </Typography>
                                 <Typography variant="body2">
                                   {workflow.name}
@@ -87,9 +88,15 @@ const CardWorkflowsRuns = (props: CardWorkflowsRunsProps) => {
                         </TableCell>
                         <TableCell>
                           <Chip
-                            label={capitalize(run.conclusion)}
+                            label={capitalize(run.conclusion ?? "pending")}
                             color={
-                              run.conclusion == "success" ? "success" : "error"
+                              (()=>{
+                                if(!run.conclusion ) return "info"
+                                if(run.conclusion == "success") return "success"
+                                else{
+                                  return "error"
+                                }
+                              })()
                             }
                           />
                         </TableCell>

@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/material/styles";
 import React from "react";
 import { GetCommitsRsDTO } from "@/common/domain/get-commits.interface";
+import shortcodeToEmoji from "@/application/utils/emojis/gitmojis.handler";
 
 export type CardCommitsProps = {
   commits?: GetCommitsRsDTO[] | null;
@@ -45,7 +46,7 @@ const CardCommits = (props: CardCommitsProps) => {
                     <Avatar alt={commit.commit.author.name} src={commit.commit.author.avatar_url}>
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={commit.commit.message} secondary={
+                  <ListItemText primary={shortcodeToEmoji(commit.commit.message)} secondary={
                     <span>
                       <Chip component="span" size="small" label={commit.commit.author.user_name} />
                       <Typography variant="body2" sx={{pl:1}} component="span">{commit.commit.author.date}</Typography>
