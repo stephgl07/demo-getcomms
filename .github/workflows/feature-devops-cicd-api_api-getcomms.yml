@@ -3,7 +3,7 @@ name: Build and deploy Node.js app to Azure Web App - api-getcomms
 on:
   push:
     branches:
-      - feature/devops-cicd-api
+      - main
   workflow_dispatch:
 
 env:
